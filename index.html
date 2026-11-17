@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zümra'ya | Bir El Sıkışmasıyla Başlayan Hikâye</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+
+:root{
+ --pink:#f5a9ca;--purple:#a98bd5;--blue:#76bde8;
+ --navy:#11162e;--white:#f9eff7;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;color:var(--white);
+ font-family:Quicksand,sans-serif;
+ background:radial-gradient(ellipse at 20% 0%,#49315f 0%,transparent 48%),
+ radial-gradient(ellipse at 90% 80%,#183d68 0%,transparent 48%),
+ #101426;
+ padding:18px;overflow-x:hidden;
+}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+.star{position:absolute;background:white;border-radius:50%;animation:blink 3s infinite alternate}
+@keyframes blink{to{opacity:.12;transform:scale(.5)}}
+.wrap{position:relative;z-index:1;max-width:760px;margin:20px auto}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}
+.logo{font-size:12px;letter-spacing:2px;color:#c5c9ed}
+.counter{font-size:12px;color:var(--blue)}
+.progress{height:5px;background:#ffffff20;border-radius:20px;overflow:hidden;margin-bottom:18px}
+#bar{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue));transition:.5s}
+.panel{
+ border:1px solid #ffffff25;border-radius:25px;
+ background:linear-gradient(145deg,#ffffff13,#ffffff07);
+ backdrop-filter:blur(16px);padding:clamp(20px,5vw,38px);
+ box-shadow:0 20px 80px #0005;min-height:570px;
+}
+#content{animation:enter .45s}
+@keyframes enter{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--blue);text-align:center}
+h1,h2{font-family:'Playfair Display',serif;text-align:center}
+h1{font-size:clamp(32px,7vw,48px);color:var(--pink);line-height:1.2}
+h2{font-size:clamp(25px,5vw,34px);color:#f7c8e0}
+p{font-size:15px;line-height:1.95;color:#e8e6f6;text-align:center}
+.art{
+ margin:24px auto;width:130px;height:130px;border-radius:35px;
+ display:grid;place-items:center;font-size:65px;
+ background:linear-gradient(145deg,#f5a9ca25,#76bde830);
+ border:1px solid #ffffff22;box-shadow:0 10px 40px #0003;
+}
+.buttons{display:grid;gap:10px;margin-top:25px}
+button{
+ font-family:Quicksand,sans-serif;font-weight:700;font-size:14px;
+ padding:15px;border-radius:14px;border:1px solid #ffffff35;
+ background:linear-gradient(110deg,#a36eaa,#635f9d);
+ color:white;cursor:pointer;transition:.2s;width:100%;
+}
+button:hover{transform:translateY(-2px);filter:brightness(1.15)}
+button.alt{background:#253d68}
+button.light{background:transparent}
+button:disabled{opacity:.35;cursor:not-allowed}
+.note{font-size:11px;color:#aaaacb;text-align:center;margin-top:20px}
+.chat{background:#222a48;border-radius:18px;padding:15px;margin:15px 0;text-align:left}
+.chat .name{font-size:11px;color:var(--blue);margin-bottom:5px}
+.chat p{text-align:left;margin:0;font-size:14px}
+.item{
+ border:1px solid #ffffff22;border-radius:15px;padding:15px;
+ background:#ffffff0a;margin:10px 0;text-align:center
+}
+.item b{color:var(--pink)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choices button{min-height:80px}
+.cardpick{
+ border:1px solid var(--blue);border-radius:14px;
+ background:#192849;padding:22px;font-size:28px;
+ min-height:100px;display:grid;place-items:center;
+}
+.poem{background:#202b4a;border-radius:17px;padding:20px;margin-top:15px}
+.poem p{margin:8px 0;font-size:14px}
+.divider{height:1px;background:#ffffff30;margin:20px 0}
+.envelope{font-size:85px;cursor:pointer;text-align:center;animation:float 2s infinite ease-in-out}
+@keyframes float{50%{transform:translateY(-9px)}}
+.letter{background:#fff1f7;color:#49304d;padding:22px;border-radius:15px;text-align:left;line-height:1.9}
+.letter p{color:#49304d;text-align:left}
+.letter h2{color:#9e5483}
+.car{font-size:90px;animation:drive 2s infinite alternate}
+@keyframes drive{to{transform:translateX(12px)}}
+footer{text-align:center;font-size:11px;color:#a7a6c7;margin:17px}
+@media(max-width:500px){.panel{padding:20px 16px;min-height:540px}.choices{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="wrap">
+ <div class="top">
+  <div class="logo">♡ ZÜMRA & AHМET ♡</div>
+  <div class="counter" id="counter">BAŞLANGIÇ</div>
+ </div>
+ <div class="progress"><div id="bar"></div></div>
+ <div class="panel"><main id="content"></main></div>
+ <footer>Bir el sıkışmasıyla başlayan küçük bir evren 💙</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+for(let i=0;i<75;i++){
+ let s=document.createElement('i');s.className='star';
+ s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+ s.style.width=s.style.height=(Math.random()*3+1)+'px';
+ s.style.animationDelay=Math.random()*4+'s';$('stars').appendChild(s);
+}
+let chapter=0,dialog=0,flower=false,magic=false;
+let chocolate=false,car=false,letterOpen=false,tea=false;
+
+function render(eyebrow,emoji,title,text,buttons){
+ $('counter').textContent=chapter===0?'BAŞLANGIÇ':`BÖLÜM ${chapter} / 10`;
+ $('bar').style.width=(chapter/10*100)+'%';
+ $('content').innerHTML=`
+ <div id="scene">
+ <div class="eyebrow">${eyebrow}</div>
+ <div class="art">${emoji}</div>
+ <h2>${title}</h2><p>${text}</p>
+ <div class="buttons">${buttons.map((b,i)=>`<button class="${i?'alt':''}" onclick="choose(${i})">${b}</button>`).join('')}</div>
+ </div>`;
+}
+let actions=[];
+function show(e,em,t,txt,buttons,fn){
+ render(e,em,t,txt,buttons);actions=fn;
+}
+function choose(i){if(actions[i])actions[i]();}
+function go(n){chapter=n;steps[n]();}
+function intro(){chapter=0;show('ÖZEL BİR HİKÂYE','🌙','Bir El Sıkışmasıyla Başlayan Hikâye','Bazı hikâyeler büyük olaylarla başlamaz. Bazen bir okul bahçesinde sorulan küçücük bir soru, insanın hafızasında kocaman bir yer edinir. Bu hikâye Ahmet ve Zümra için hazırlandı. Hazırsan başlayalım.', ['Hikâyeye başla ❤️'],[()=>go(1)]);}
+const steps={
+1:()=>show('BÖLÜM 1 · İLK KARŞILAŞMA','🏫','Okulun Son Günü','Güneş yavaşça okulun üzerinden çekiliyordu. Herkes evine dönmeye hazırlanıyordu. Ahmet ise o gün tanımadığı birini fark etti. Siyah ve mavi karışımı kıvırcık saçları vardı. Ahmet’in saçları siyahtı. Bir an düşündü ve yanına gitti.', ['Yanına git','Biraz daha bekle'],[
+()=>show('İLK SÖZLER','🤝','Yeni mi geldin?','Ahmet gülümseyerek sordu: “Yeni mi geldin?” Ardından ellerini uzattılar ve el sıkıştılar. Zümra için belki sıradan bir tanışmaydı. Ahmet içinse o an, zamanın hafifçe yavaşladığı çok özel bir hatıraya dönüştü.', ['Bu anı hatırla ❤️'],[()=>go(2)]),
+()=>show('BİR CESARET ANI','💫','Bazen cesaret gerekir','Ahmet derin bir nefes aldı. Sonra yanına gitti ve aynı soruyu sordu: “Yeni mi geldin?”', ['El sıkışın'],[()=>go(2)])
+]),
+2:()=>show('BÖLÜM 2 · İLK MESAJ','📱','Bir mesajla devam eden hikâye','O günün ardından Ahmet’in aklında tek bir şey vardı: yeniden konuşmak. Telefonunu eline aldı ve Zümra’ya bir mesaj yazdı. Küçük bir merhaba, uzun bir hikâyenin kapısını araladı.', ['Mesajı aç'],[()=>show('MESAJLAR','💬','Ahmet → Zümra','Ahmet: Merhaba, nasılsın?\\n\\nZümra: İyiyim, sen nasılsın?\\n\\nAhmet: Ben de iyiyim. Bugün tanıştığımıza sevindim.\\n\\nKonuşmalar böylece devam etti. Günler geçtikçe Ahmet’in hisleri büyüdü. Zümra ise onun hislerini, Ahmet açıkça söylemeden önce fark etti.', ['Sonraki bölüme geç'],[()=>go(3)])]),
+3:()=>show('BÖLÜM 3 · İLK SÜRPRİZ','💐','Bir demet çiçek','Ahmet bu kez sıradan bir hediye almak istemedi. Zümra’nın adının yazdığı bir çiçek demeti çizdi. Her çiçeğe biraz zaman, her ayrıntıya biraz özen ekledi.', ['Çiçeği hazırla'],[()=>{flower=true;show('GÖREV TAMAMLANDI','🌷','Zümra için hazırlandı!','Çiçeklerin arasında Zümra’nın adı parlıyordu. Bazen en güzel hediyeler, insanın kendi elleriyle hazırladıklarıdır.', ['Devam et'],[()=>go(4)])}]),
+4:()=>show('BÖLÜM 4 · ÖRÜMCEK RUHU','🕷️','Spider-Man sürprizi','Ahmet, Zümra’ya Spider-Man temalı bir telefon kılıfı aldı. Kırmızı ve mavi renkler, küçük bir sürprizin parçası oldu. Bir kahramanın maskesinin arkasında bile bir hikâye saklıydı.', ['Hediyeyi aç'],[()=>show('HEDİYE AÇILDI','🎁','Küçük ama özel','Bir telefon kılıfından çok daha fazlasıydı: Zümra’yı düşünerek seçilmiş bir ayrıntı.', ['Devam et'],[()=>go(5)])]),
+5:()=>show('BÖLÜM 5 · TOKYO DRIFT','🏎️','Garajın en özel parçası','Ahmet’in koleksiyonunda çok özel bir otomobil vardı: Nissan Silvia S15. Fast & Furious: Tokyo Drift’in mavi-turuncu efsanesi. Ahmet onu Zümra’ya hediye etti. Çünkü bazen en sevdiğin parçayı vermek, birine verdiğin değeri anlatır.', ['Arabayı çalıştır!'],[()=>show('MİNİ YOLCULUK','🚘','Mavi ve turuncu','Motor sesi yükseldi. Silvia S15 hayalindeki yolda ilerledi. Mavi ve turuncu ışıklar geceyi aydınlattı.', ['Yolculuğu tamamla'],[()=>{car=true;go(6)}])]),
+6:()=>show('BÖLÜM 6 · TATLI MOLA','🍫','Antep fıstıklı çikolatalar','Sırada tatlı bir sürpriz vardı. Ahmet, Zümra için Antep fıstıklı çikolatalar aldı. Küçük bir paket, güzel bir düşünce ve paylaşılacak tatlı bir anı.', ['Çikolataları aç'],[()=>{chocolate=true;show('TATLI SÜRPRİZ','💚','Afiyet olsun Zümra!','Bu bölümün ödülü tatlı bir gülümseme. Hikâyenin en güzel tarafı, küçük şeylerin bile özel olabilmesi.', ['Devam et'],[()=>go(7)])}]),
+7:()=>show('BÖLÜM 7 · SİHİRBAZ','🃏','Ahmet’in kartları','Ahmet, Zümra’ya özel iskambil kartlarıyla sihirbazlık yapmayı öğrendi. Şimdi sen de bir kart seç. Bakalım sihirbazın numarasını çözebilecek misin?', ['Kart oyununu başlat'],[()=>cardGame()]),
+8:()=>show('BÖLÜM 8 · BİZİM ŞAKALARIMIZ','🐢','Kaplumbağa Terbiyecisi','Bazı kelimeler vardır, sadece iki kişinin bildiği bir dünyaya aittir. Kaplumbağa Terbiyecisi de böyle bir lakap. Bir de çay içme espriniz var. Dışarıdan küçük görünen bu ayrıntılar, sizin hikâyenizin rengini oluşturuyor.', ['Bir bardak çay iç ☕'],[()=>{tea=true;show('ÇAY MOLASI','☕','Çaylar hazır!','Bir yudum çay, biraz sohbet ve Kaplumbağa Terbiyecisi’ne kocaman bir selam. Bu anı da hikâyeye ekledik.', ['Son bölüme geç'],[()=>go(9)])}]),
+9:()=>show('BÖLÜM 9 · ANILAR','✨','Bütün küçük şeyler','Bir okul bahçesi, bir el sıkışması, bir mesaj, çiçekler, Spider-Man, Silvia S15, çikolatalar, kartlar ve çay... Hepsi bir araya geldiğinde Ahmet’in gözünden özel bir hikâye ortaya çıktı.', ['Son perdeyi aç'],[()=>go(10)]),
+10:()=>show('BÖLÜM 10 · SON PERDE','💌','Zümra, sana bir mektup var','Bu hikâyenin son sayfası bir cevap istemiyor. Sadece Ahmet’in içinden geçenleri, güzel anıları ve sana söylemek istediklerini taşıyor.', ['Mektubu aç ❤️'],[()=>openLetter()])
+};
+function cardGame(){
+ chapter=7;
+ let chosen=Math.floor(Math.random()*4);
+ let suits=['♥','♦','♠','♣'];
+ let names=['As','Kız','Papaz','Vale'];
+ let cards=Array.from({length:4},(_,i)=>({s:suits[i],n:names[(i+chosen)%4]}));
+ show('KART NUMARASI','🃏','Bir kart seç','Dört karttan birine dokun. Sihirbaz Ahmet bakalım seçimini tahmin edebilecek mi.',cards.map(c=>c.n+' '+c.s),cards.map((c,i)=>()=>show('SİHİRBAZLIK','✨','Kartın bulundu!','Ahmet’in numarası hazırdı! Kartların sırrı belki de dikkatle bakmakta saklıdır. Seçtiğin kart: '+c.n+' '+c.s+'.', ['Sihir tamamlandı'],[()=>{magic=true;go(8)}])));
+}
+function openLetter(){
+ letterOpen=true;
+ $('bar').style.width='100%';
+ $('counter').textContent='SONSUZA DEK GÜZEL ANILAR';
+ $('content').innerHTML=`
+ <div id="scene">
+ <div class="eyebrow">AHMET'TEN ZÜMRA'YA</div>
+ <div class="envelope" onclick="reveal()">💌</div>
+ <h2>Mektubu aç...</h2>
+ <p>Bu küçük zarfın içinde Ahmet'in kalbinden gelen birkaç satır var.</p>
+ <button onclick="reveal()">Mektubu aç ❤️</button>
+ </div>`;
+}
+function reveal(){
+ $('content').innerHTML=`
+ <div class="eyebrow">BİR EL SIKIŞMASIYLA BAŞLAYAN HİKÂYE</div>
+ <h1>Zümra'ya...</h1>
+ <div class="letter">
+ <h2>Sevgili Zümra,</h2>
+ <p>Belki senin için sıradan bir okul günüydü. Belki de sadece yeni tanıştığın birinin uzattığı eli tuttun. Ama benim için o el sıkışması, unutmak istemediğim bir hikâyenin ilk sayfasıydı.</p>
+ <p>Sonrasında sana yazdığım mesajlar, senin için çizdiğim çiçekler, küçük hediyeler, çikolatalar ve sana özel öğrendiğim sihirbazlık numaraları...</p>
+ <p>Hepsinin arkasında tek bir düşünce vardı: Yüzünde küçük de olsa bir gülümseme oluşturabilmek.</p>
+ <p>Bazen bir insan hayatına girer ve farkında olmadan sıradan günlerini özel anılara dönüştürür. Benim için sen böyle birisin.</p>
+ <p>Sana bu oyunu hazırladım çünkü birlikte yaşadığımız küçük detayların benim için ne kadar değerli olduğunu bilmeni istedim.</p>
+ <p>Ne hissedersen hisset, kararlarına saygı duyacağım. Senden bir cevap ya da karşılık beklediğim için değil, seni tanıdığıma sevindiğim için yazıyorum.</p>
+ <p>İyi ki o gün sana yeni gelip gelmediğini sormuşum.</p>
+ <p>İyi ki o gün elini sıkmışım.</p>
+ <p><b>İyi ki Zümra'yla tanışmışım.</b></p>
+ <p style="text-align:right;font-family:serif;font-style:italic;font-size:21px">— Ahmet ❤️</p>
+ </div>
+ <div class="divider"></div>
+ <h2>İki kıtalık şiirim...</h2>
+ <div class="poem">
+ <p>Zümrütten değerli o gözlerin</p>
+ <p>Ümit veriyor bakıs hallerin</p>
+ <p>Mart ayını güzelleştirensin</p>
+ <p>Renklerine de aşık edensin</p>
+ <p>Ay kıskanandı senin gözlerini</p>
+ <div class="divider"></div>
+ <p>Yine gelsen yine sevsem</p>
+ <p>Islanmam yagmurda yanımdaysan</p>
+ <p>Laleleri andıran gülümsemen</p>
+ <p>Men ediyor beni üzülmekten</p>
+ <p>Ah haram mısın bana bi bilsem</p>
+ <p>Zamanla beklesem ne güzel gelsen</p>
+ </div>
+ <div class="art">💗</div>
+ <h2>İyi ki varsın Zümra.</h2>
+ <p>Bu hikâyenin en güzel tarafı, yaşanmış olması.</p>
+ <p style="color:#9bcdf5">— Ahmet</p>
+ <button onclick="intro()">Hikâyeyi yeniden yaşa ↻</button>
+ `;
+}
+intro();
+</script>
+</body>
+</html>
